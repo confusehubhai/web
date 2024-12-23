@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Batman</title>
+    <style>
+        /* Reset default margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            height: 100vh;
+            background: url('https://images.unsplash.com/photo-1607476504592-92c8a09ab62c') center/cover no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            animation: darkBackground 10s ease infinite; /* Smooth background animation */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Keyframes for background animation (optional dark effect) */
+        @keyframes darkBackground {
+            0% {
+                filter: brightness(50%) contrast(120%);
+            }
+            50% {
+                filter: brightness(60%) contrast(110%);
+            }
+            100% {
+                filter: brightness(50%) contrast(120%);
+            }
+        }
+
+        /* Container to center the content */
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7); /* Dark transparent background */
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Header styling */
+        header {
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-family: 'Bangers', cursive;
+            color: #f0c419;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.8);
+        }
+
+        /* About section styling */
+        .about-section {
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #fff;
+        }
+
+        /* Button section styling */
+        .button-section {
+            margin-top: 30px;
+        }
+
+        .button-section button {
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            background-color: #f0c419;
+            color: #333;
+            border: 2px solid #333;
+            border-radius: 30px;
+            text-transform: uppercase;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Button hover effect */
+        .button-section button:hover {
+            background-color: #ff8c00;
+            color: #fff;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+            transform: scale(1.1);
+        }
+
+        .button-section button::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: all 0.4s;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .button-section button:hover::before {
+            transform: translate(-50%, -50%) scale(0);
+        }
+
+        .button-section button:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>About me</h1>
+        </header>
+        
+        <section class="about-section">
+            <p>Welcome to our application ! I'm Vaibhav Singh (Batman)
+             Explore the dark and thrilling world of Gotham. Join us on an adventure filled with mystery and excitement. Click the below to dive deeper into the world of Batman and more!</p>
+        </section>
+<section class="button-section">
+            <button onclick="window.location.href='https://www.instagram.com/confusedvirus?igsh=MXNha3RscWNrd3lrbw==';">Meet Batman</button>
+            <button onclick="window.location.href='https://www.youtube.com/@CONFUSED_VIRUS';">Explore Gotham</button>
+            <button onclick="window.location.href='https://t.me/joinkrobkl';">Join the Justice League</button>
+        </section>
+    </div>
+
+</head>
+</html>
