@@ -115,11 +115,9 @@
       <p class="text-lg mb-8">
         good night :/ <br> more comming soon...
       </p>
-      <a href="about.html">
        <button class="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-600" id="batman-btn">
         Unleash the Bat-Signal
        </button>
-      </a>
     </section>
   </main>
 
@@ -143,6 +141,10 @@
       snowflake.style.animationDelay = `${Math.random() * 5}s`;
       snowflakesContainer.appendChild(snowflake);
     }
+     // JavaScript for redirect on button click
+    document.getElementById('batman-btn').addEventListener('click', function() {
+      window.location.href = 'about.html'; // Redirects to about.html
+    });
   </script>
 </body>
 </html>
