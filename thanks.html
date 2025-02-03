@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed - ConfusedShop</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/thanks.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">ConfusedShop</div>
+        <div class="nav-items">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="cart.html">Cart <i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span></a>
+            <a href="orders.html">Orders</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="thanks-container">
+                <div class="thanks-content">
+                    <i class="fas fa-check-circle"></i>
+                    <h1>Thank You!</h1>
+                    <h2>Your Order is Confirmed</h2>
+                    <div class="order-info">
+                        <p>Order ID: <span id="order-id"></span></p>
+                        <p>Order Date: <span id="order-date"></span></p>
+                    </div>
+                    <div class="payment-info">
+                        <p>Payment Method: <span id="payment-method"></span></p>
+                        <p>Amount Paid: <span id="amount-paid"></span></p>
+                    </div>
+                    <div class="buttons">
+                        <a href="shop.html" class="continue-shopping">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 ConfusedShop. All rights reserved.</p>
+    </footer>
+
+    <script src="js/storage.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/thanks.js"></script>
+</body>
+</html>

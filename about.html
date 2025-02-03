@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6306749006097913"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>confusedvirus</title>
+    <style>
+        /* Reset default margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Ensure that the html and body fill the entire height of the viewport */
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+
+        /* Body styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuuRO5qhImaEm0RQ241dezrfgD5efjBS_R4A&s') center/cover no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            animation: darkBackground 10s ease infinite;
+            overflow: hidden; /* Hide any overflowing snowflakes */
+        }
+
+        /* Keyframes for background animation */
+        @keyframes darkBackground {
+            0% {
+                filter: brightness(50%) contrast(120%);
+            }
+            50% {
+                filter: brightness(60%) contrast(110%);
+            }
+            100% {
+                filter: brightness(50%) contrast(120%);
+            }
+        }
+
+        /* Dark overlay for the background */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
+            z-index: -1;
+        }
+
+        /* Cloud styling */
+        .cloud {
+            position: absolute;
+            top: 10%;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.3);
+            animation: cloudsMove 60s linear infinite;
+        }
+
+        /* Medium cloud */
+        .cloud.medium {
+            width: 300px;
+            height: 150px;
+            top: 10%;
+            animation-duration: 80s; /* Slower movement */
+            left: 10%;
+        }
+
+        /* Small cloud 1 */
+        .cloud.small1 {
+            width: 200px;
+            height: 100px;
+            top: 20%;
+            animation-duration: 60s; /* Faster movement */
+            left: 50%;
+        }
+
+        /* Small cloud 2 */
+        .cloud.small2 {
+            width: 180px;
+            height: 90px;
+            top: 1%;
+            animation-duration: 70s; /* Slightly slower movement */
+            left: 80%;
+        }
+
+        /* Keyframes for moving clouds */
+        @keyframes cloudsMove {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* Snowflake styling */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            opacity: 0.8;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fall 10s linear infinite;
+        }
+
+        /* Snowflake falling animation (straight down) */
+        @keyframes fall {
+            to {
+                transform: translateY(100vh); /* Snowflakes move from top to bottom */
+            }
+        }
+
+        /* Lighting effect (Flash) */
+        @keyframes lightingFlash {
+            0% {
+                background-color: rgba(255, 255, 255, 1); /* Full white flash */
+            }
+            100% {
+                background-color: rgba(0, 0, 0, 0.7); /* Back to dark */
+            }
+        }
+
+        /* Apply lighting flash */
+        .lighting-flash {
+            animation: lightingFlash 0.3s ease-in-out;
+        }
+
+        /* Lightning ray effect */
+        @keyframes lightningRay {
+            0% {
+                opacity: 0;
+                transform: translateY(-100vh) scaleX(0.2); /* Start off-screen */
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(100vh) scaleX(1); /* Full strike */
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) scaleX(0.2); /* End off-screen */
+            }
+        }
+
+        /* Lightning ray styling */
+        .lightning-ray {
+            position: absolute;
+            top: 0;
+            left: 50%; /* Randomize left position using JS */
+            width: 2px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.7); /* Glow effect */
+            opacity: 0;
+            animation: lightningRay 0.3s linear;
+        }
+
+        /* Container to center the content */
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 80%;
+            max-width: 1200px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Header styling */
+        header {
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-family: 'Bangers', cursive;
+            color: #f0c419;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.8);
+        }
+
+        /* About section styling */
+        .about-section {
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #fff;
+        }
+
+        /* Button section styling */
+        .button-section {
+            margin-top: 30px;
+        }
+
+        .button-section button {
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            background-color: #f0c419;
+            color: #333;
+            border: 2px solid #333;
+            border-radius: 30px;
+            text-transform: uppercase;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Button hover effect */
+        .button-section button:hover {
+            background-color: #ff8c00;
+            color: #fff;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+            transform: scale(1.1);
+        }
+
+        .button-section button::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: all 0.4s;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .button-section button:hover::before {
+            transform: translate(-50%, -50%) scale(0);
+        }
+
+        .button-section button:focus {
+            outline: none;
+        }
+
+        /* Realistic Moon Styling */
+        .moon {
+            position: absolute;
+            top: 0%;
+            left: 2%;
+            width: 500px;
+            height: 500px;
+            background: url('https://i.pinimg.com/originals/fa/86/97/fa869743d08ca95414a50cc0ec1526bd.png') center/cover no-repeat;
+            border-radius: 100%;
+            box-shadow: 0px 0px 0.1px rgba(240, 240, 240, 0.9); /* Soft glow */
+            animation: moonMove 30s linear infinite;
+        }
+
+        @keyframes moonMove {
+            0% {
+                transform: translateX(0) translateY(0);
+            }
+            50% {
+                transform: translateX(120px) translateY(20px);
+            }
+            100% {
+                transform: translateX(0) translateY(0);
+            }
+        }
+
+        /* Batman Symbol (Top-Right Corner) */
+        .batman-symbol {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Batman_logo.svg/1200px-Batman_logo.svg.png') center/cover no-repeat;
+            background-size: contain;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Batman Symbol -->
+    <div class="batman-symbol"></div>
+
+    <!-- Moon Element -->
+    <div class="moon"></div>
+
+    <!-- Clouds and Snowflakes -->
+    <div class="cloud medium"></div>
+    <div class="cloud small1"></div>
+    <div class="cloud small2"></div>
+
+    <div class="snowflakes" aria-hidden="true"></div>
+
+    <div class="container">
+        <header>
+            <h1>About Me</h1>
+        </header>
+        
+        <section class="about-section">
+            <p>Welcome to our world! I'm Vaibhav Singh (Batman). Explore the dark and thrilling world of Gotham. Join us on an adventure filled with mystery and excitement...:)</p>
+        </section>
+
+        <section class="button-section">
+            <!-- New Power Button -->
+            <button onclick="window.location.href='power.html'">Powers</button>
+            
+            <button onclick="window.location.href='https://www.instagram.com/confusedvirus?igsh=MXNha3RscWNrd3lrbw=='">Meet Batman</button>
+            <button onclick="window.location.href='https://www.youtube.com/@CONFUSED_VIRUS'">Explore Gotham</button>
+            <button onclick="window.location.href='https://t.me/joinkrobkl'">Join the Justice League</button>
+            <button onclick="window.location.href='index.html'">Back</button>
+        </section>
+    </div>
+
+    <script>
+        // JavaScript to generate snowflakesa
+        function createSnowflakes() {
+            const snowflakesContainer = document.querySelector('.snowflakes');
+            for (let i = 0; i < 50; i++) {  // Generate 50 snowflakes
+                const snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                snowflake.style.left = `${Math.random() * 100}vw`; // Random position horizontally
+                snowflake.style.animationDuration = `${Math.random() * 5 + 5}s`; // Random animation duration between 5 and 10 seconds
+                snowflake.style.animationDelay = `${Math.random() * 5}s`; // Random delay for a staggered effect
+                snowflake.style.width = `${Math.random() * 10 + 5}px`; // Random size between 5px and 15px
+                snowflake.style.height = snowflake.style.width;
+                snowflakesContainer.appendChild(snowflake);
+            }
+        }
+
+        // Function to trigger random lightning flash and lightning ray
+        function triggerLightning() {
+            const body = document.querySelector('body');
+            const lightingFlash = Math.random() < 0.15; // 5% chance for a lightning flash
+
+            if (lightingFlash) {
+                body.classList.add('lighting-flash');
+                setTimeout(() => {
+                    body.classList.remove('lighting-flash');
+                }, 200); // Lighting effect lasts for 200ms
+            }
+
+            // Trigger a lightning ray with a 5% chance
+            if (Math.random() < 0.15) {
+                const lightningRay = document.createElement('div');
+                lightningRay.classList.add('lightning-ray');
+                lightningRay.style.left = `${Math.random() * 100}vw`; // Random horizontal position
+                document.body.appendChild(lightningRay);
+
+                // Remove the lightning ray after the animation ends (300ms)
+                setTimeout(() => {
+                    lightningRay.remove();
+                }, 300);
+            }
+        }
+
+        // Call the function to generate snowflakes when the page loads
+        createSnowflakes();
+
+        // Trigger lightning effects at random intervals
+        setInterval(triggerLightning, 1500);  // Trigger every 2 seconds
+    </script>
+</body>
+</html>

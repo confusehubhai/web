@@ -1,0 +1,343 @@
+/* Checkout Page Styles */
+.checkout-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.checkout-content {
+    display: grid;
+    gap: 2rem;
+}
+
+/* Order Summary Styles */
+.order-summary {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid var(--primary-color);
+}
+
+.order-summary h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.order-items {
+    margin-bottom: 2rem;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    border: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.item-details {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.item-details img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 1rem;
+    border: 1px solid var(--primary-color);
+}
+
+.item-info {
+    flex: 1;
+}
+
+.item-info h3 {
+    color: var(--primary-color);
+    margin: 0 0 0.5rem 0;
+}
+
+.item-info p {
+    color: var(--text-color);
+    margin: 0.2rem 0;
+}
+
+.price {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.order-total > div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.order-total .total {
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 215, 0, 0.2);
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* Form Styles */
+.shipping-info, .payment-method {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid var(--primary-color);
+    margin-bottom: 2rem;
+}
+
+.shipping-info h2, .payment-method h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.2);
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+}
+
+.form-group .help-text {
+    color: var(--text-color);
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+    opacity: 0.8;
+}
+
+/* Payment Method Styles */
+.payment-options {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.payment-option label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 215, 0, 0.1);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.payment-option label:hover {
+    border-color: var(--primary-color);
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.payment-option input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+}
+
+.payment-option i {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+.payment-details {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 1.5rem;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+}
+
+.upi-details h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.qr-container {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 4px;
+    display: inline-block;
+    margin: 1rem 0;
+}
+
+.cod-note {
+    color: #ffc107;
+    font-style: italic;
+    margin-top: 0.5rem;
+}
+
+/* Form Submit Button */
+.form-submit {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.place-order-btn {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    padding: 1rem 3rem;
+    font-size: 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.place-order-btn:hover {
+    background-color: #ffd700;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Required Field Indicator */
+label[for]::after {
+    content: " *";
+    color: var(--primary-color);
+}
+
+/* Invalid Field Styles */
+.form-group input:invalid:not(:placeholder-shown),
+.form-group textarea:invalid:not(:placeholder-shown) {
+    border-color: #dc3545;
+}
+
+.form-group input:invalid:not(:placeholder-shown) + .help-text,
+.form-group textarea:invalid:not(:placeholder-shown) + .help-text {
+    color: #dc3545;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .checkout-container {
+        margin: 1rem auto;
+    }
+
+    .shipping-info, .payment-method {
+        padding: 1.5rem;
+    }
+
+    .item-details img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .place-order-btn {
+        width: 100%;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .shipping-info, .payment-method {
+        padding: 1rem;
+    }
+
+    .order-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .item-details {
+        flex-direction: column;
+    }
+
+    .item-details img {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .payment-option label {
+        padding: 0.8rem;
+    }
+}
+
+/* Touch-friendly Controls */
+@media (hover: none) {
+    button[type="submit"] {
+        min-height: 44px;
+    }
+
+    input[type="radio"] {
+        min-width: 24px;
+        min-height: 24px;
+    }
+}
+
+/* Order Confirmation Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    position: relative;
+    background: white;
+    margin: 10% auto;
+    padding: 2rem;
+    max-width: 500px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.order-confirmation i {
+    font-size: 4rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.order-confirmation button {
+    background: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+}

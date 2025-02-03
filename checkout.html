@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - ConfusedShop</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/checkout.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="shop.html">ConfusedShop</a>
+        </div>
+        <div class="nav-items">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="cart.html">Cart <i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span></a>
+            <a href="orders.html">Orders</a>
+        </div>
+    </nav>
+
+    <main class="checkout-container">
+        <div class="checkout-content">
+            <section class="order-summary">
+                <h2>Order Summary</h2>
+                <div class="order-items">
+                    <!-- Order items will be dynamically loaded here -->
+                </div>
+                <div class="order-total">
+                    <div class="subtotal">
+                        <span>Subtotal:</span>
+                        <span class="amount">₹0.00</span>
+                    </div>
+                    <div class="tax">
+                        <span>Tax (8%):</span>
+                        <span class="amount">₹0.00</span>
+                    </div>
+                    <div class="shipping">
+                        <span>Shipping:</span>
+                        <span class="amount">₹10.00</span>
+                    </div>
+                    <div class="cod-fee" style="display: none;">
+                        <span>COD Handling Fee:</span>
+                        <span class="amount">₹50.00</span>
+                    </div>
+                    <div class="total">
+                        <span>Total:</span>
+                        <span class="amount">₹0.00</span>
+                    </div>
+                </div>
+            </section>
+
+            <form id="checkoutForm" onsubmit="event.preventDefault(); placeOrder();" novalidate>
+                <section class="shipping-info">
+                    <h2>Shipping Information</h2>
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required 
+                               pattern="[A-Za-z\s]+" title="Please enter a valid name (letters and spaces only)">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required
+                               pattern="[^@\s]+@[^@\s]+\.[^@\s]+" title="Please enter a valid email address">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required
+                               pattern="[0-9]{10}" title="Please enter a 10-digit phone number">
+                        <small class="help-text">Enter 10-digit mobile number</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address *</label>
+                        <textarea id="address" name="address" required
+                                title="Please enter your complete address"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City *</label>
+                        <input type="text" id="city" name="city" required
+                               pattern="[A-Za-z\s]+" title="Please enter a valid city name">
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State *</label>
+                        <input type="text" id="state" name="state" required
+                               pattern="[A-Za-z\s]+" title="Please enter a valid state name">
+                    </div>
+                    <div class="form-group">
+                        <label for="pincode">PIN Code *</label>
+                        <input type="text" id="pincode" name="pincode" required
+                               pattern="[0-9]{6}" title="Please enter a valid 6-digit PIN code">
+                        <small class="help-text">Enter 6-digit PIN code</small>
+                    </div>
+                </section>
+
+                <section class="payment-method">
+                    <h2>Payment Method *</h2>
+                    <div class="payment-options">
+                        <div class="payment-option">
+                            <label>
+                                <input type="radio" name="payment" value="upi" checked required>
+                                <i class="fas fa-mobile-alt"></i>
+                                UPI Payment
+                            </label>
+                        </div>
+                        <!--<div class="payment-option">
+                            <label>
+                                <input type="radio" name="payment" value="cod" required>
+                                <i class="fas fa-money-bill-wave"></i>
+                                Cash on Delivery
+                            </label>
+                        </div>-->
+                    </div>
+                    <div id="upiDetails" class="payment-details">
+                        <div class="upi-details">
+                            <h3>UPI Payment Details</h3>
+                            <p>Scan QR code or pay to UPI ID: <strong>vsingh@fam</strong></p>
+                            <div id="qr-code" class="qr-container">
+                                <!-- QR code will be generated here -->
+                            </div>
+                            <div class="form-group utr-input">
+                                <label for="utr">UPI Transaction Reference (UTR) *</label>
+                                <input type="text" id="utr" name="utr" 
+                                       placeholder="Enter UTR number" 
+                                       pattern="[0-9]{12}" 
+                                       title="Please enter a valid 12-digit UTR number">
+                                <small class="help-text">Enter the 12-digit UTR number from your UPI payment</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="codDetails" class="payment-details" style="display: none;">
+                        <div class="cod-details">
+                            <p>Pay in cash when your order is delivered.</p>
+                            <p class="cod-note">Note: Additional ₹50 handling fee applies for Cash on Delivery</p>
+                        </div>
+                    </div>
+                    <div class="form-submit">
+                        <button type="submit" class="place-order-btn">Place Order</button>
+                    </div>
+                </section>
+            </form>
+        </div>
+    </main>
+
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="order-confirmation">
+                <i class="fas fa-check-circle"></i>
+                <h2>Order Placed Successfully!</h2>
+                <p>Your order ID: <span id="orderId"></span></p>
+                <div class="order-details"></div>
+                <button onclick="window.location.href='shop.html'">Continue Shopping</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 ConfusedShop. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/checkout.js"></script>
+    <script src="js/telegram-bot.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConfusedShop - Your One-Stop Shop</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">ConfusedShop</div>
+        <div class="nav-items">
+            <a href="index.html">Home</a>
+            <a href="shop.html" class="active">Shop</a>
+            <a href="cart.html">Cart <i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span></a>
+            <a href="orders.html">Orders</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <h1>Welcome to ConfusedShop</h1>
+            <div class="products-grid" id="products-container">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 ConfusedShop. All rights reserved.</p>
+    </footer>
+
+    <script src="js/storage.js"></script>
+    <script src="js/products.js"></script>
+    <script>
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.setAttribute('novalidate', true);
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+            });
+        });
+    </script>
+    <script src="js/main.js"></script>
+</body>
+</html>

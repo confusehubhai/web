@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - ConfusedShop</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/orders.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">ConfusedShop</div>
+        <div class="nav-items">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="cart.html">Cart <i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span></a>
+            <a href="orders.html" class="active">Orders</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="orders-container">
+                <h1>My Orders</h1>
+                <div class="orders-list" id="orders-list">
+                    <!-- Orders will be loaded here -->
+                </div>
+                <div id="no-orders" class="no-orders" style="display: none;">
+                    <i class="fas fa-box-open"></i>
+                    <h2>No Orders Yet</h2>
+                    <p>Start shopping to see your orders here!</p>
+                    <a href="shop.html" class="shop-now-btn">Shop Now</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 ConfusedShop. All rights reserved.</p>
+    </footer>
+
+    <script src="js/storage.js"></script>
+    <script src="js/telegram-bot.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/orders.js"></script>
+    <script src="js/status-updates.js"></script>
+</body>
+</html>
