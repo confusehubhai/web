@@ -3,11 +3,18 @@ const StatusUpdates = {
     lastUpdateId: 0,
     
     init() {
+        // Add more comprehensive initialization
+        if (!this.BOT_TOKEN) {
+            console.error('❌ Bot token is missing!');
+            return;
+        }
+
+        // Set webhook first
+        this.setWebhook();
+        
+        // Then start status check interval
         this.startStatusCheckInterval();
         console.log('Status Updates initialized');
-        
-        // Add webhook setup
-        this.setWebhook();
         
         // Test initial connection
         this.checkForStatusUpdates();
@@ -23,17 +30,22 @@ const StatusUpdates = {
 
     async checkForStatusUpdates() {
         try {
-            console.log('Checking for status updates...');
+            console.log('🔍 Checking for status updates...');
             const url = `https://api.telegram.org/bot${this.BOT_TOKEN}/getUpdates?offset=${this.lastUpdateId + 1}`;
-            console.log('Fetching updates from:', url);
             
-            const response = await fetch(url);
-            const data = await response.json();
-            console.log('Received updates:', data);
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
             
             if (!response.ok) {
-                throw new Error('Failed to fetch updates');
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+            
+            const data = await response.json();
+            console.log('📬 Received updates:', JSON.stringify(data, null, 2));
             
             if (!data.ok || !data.result.length) {
                 console.log('No new updates');
@@ -91,31 +103,36 @@ const StatusUpdates = {
                 console.log('Updated lastUpdateId to:', this.lastUpdateId);
             }
         } catch (error) {
-            console.error('Error checking status updates:', error);
+            console.error('🚨 Status update error:', error.message);
         }
     },
 
     async setWebhook() {
         try {
-            // Replace with your actual GitHub Pages URL
+            // Use your custom domain
             const webhookUrl = 'https://confusedvirus.shop';
-            const url = `https://api.telegram.org/bot${this.BOT_TOKEN}/setWebhook?url=${encodeURIComponent(webhookUrl)}`;
+            const setWebhookUrl = `https://api.telegram.org/bot${this.BOT_TOKEN}/setWebhook`;
             
-            const response = await fetch(url, {
-                method: 'GET',
-                mode: 'cors'
+            console.log('Setting webhook URL:', webhookUrl);
+            
+            const response = await fetch(setWebhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `url=${encodeURIComponent(webhookUrl)}`
             });
             
             const result = await response.json();
-            console.log('Webhook setup result:', result);
+            console.log('Full webhook response:', JSON.stringify(result, null, 2));
             
             if (result.ok) {
-                console.log('Webhook successfully set');
+                console.log('✅ Webhook successfully set');
             } else {
-                console.error('Failed to set webhook:', result.description);
+                console.error('❌ Webhook setup failed:', result.description || 'Unknown error');
             }
         } catch (error) {
-            console.error('Error setting webhook:', error);
+            console.error('🚨 Webhook setup error:', error.message);
         }
     },
 
