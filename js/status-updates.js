@@ -5,6 +5,10 @@ const StatusUpdates = {
     init() {
         this.startStatusCheckInterval();
         console.log('Status Updates initialized');
+        
+        // Add webhook setup
+        this.setWebhook();
+        
         // Test initial connection
         this.checkForStatusUpdates();
     },
@@ -88,6 +92,30 @@ const StatusUpdates = {
             }
         } catch (error) {
             console.error('Error checking status updates:', error);
+        }
+    },
+
+    async setWebhook() {
+        try {
+            // Replace with your actual GitHub Pages URL
+            const webhookUrl = 'https://confusedvirus.shop';
+            const url = `https://api.telegram.org/bot${this.BOT_TOKEN}/setWebhook?url=${encodeURIComponent(webhookUrl)}`;
+            
+            const response = await fetch(url, {
+                method: 'GET',
+                mode: 'cors'
+            });
+            
+            const result = await response.json();
+            console.log('Webhook setup result:', result);
+            
+            if (result.ok) {
+                console.log('Webhook successfully set');
+            } else {
+                console.error('Failed to set webhook:', result.description);
+            }
+        } catch (error) {
+            console.error('Error setting webhook:', error);
         }
     },
 
