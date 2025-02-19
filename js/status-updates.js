@@ -1,31 +1,33 @@
 const StatusUpdates = {
     BOT_TOKEN: '8089538079:AAHjAwNrYYfm10o4pRj4qO8Y-6MMrP5Zr2o',
     lastUpdateId: 0,
+    pollingInterval: 5000, // 5 seconds
     
-    init() {
+    async init() {
         // Add more comprehensive initialization
         if (!this.BOT_TOKEN) {
             console.error('❌ Bot token is missing!');
             return;
         }
 
-        // Set webhook first
-        this.setWebhook();
-        
-        // Then start status check interval
-        this.startStatusCheckInterval();
-        console.log('Status Updates initialized');
-        
-        // Test initial connection
-        this.checkForStatusUpdates();
+        try {
+            // Remove any existing webhook first
+            await this.deleteWebhook();
+            
+            // Start continuous polling
+            this.startPolling();
+            console.log('✅ Status Updates initialized successfully');
+        } catch (error) {
+            console.error('❌ Failed to initialize Status Updates:', error);
+        }
     },
 
-    startStatusCheckInterval() {
-        console.log('Starting status check interval...');
-        // Check for status updates every 5 seconds (reduced from 10)
+    async startPolling() {
+        console.log('🔄 Starting continuous polling...');
+        // Start continuous polling without any interruptions
         setInterval(() => {
             this.checkForStatusUpdates();
-        }, 5000);
+        }, this.pollingInterval);
     },
 
     async checkForStatusUpdates() {
@@ -95,6 +97,9 @@ const StatusUpdates = {
                                 update.callback_query.id,
                                 `Order ${orderId} status updated to ${newStatus}`
                             );
+
+                            // Save the last known status in local storage
+                            localStorage.setItem(`order_${orderId}`, newStatus);
                         }
                     }
                 }
@@ -107,32 +112,30 @@ const StatusUpdates = {
         }
     },
 
-    async setWebhook() {
+    async deleteWebhook() {
         try {
-            // Use your custom domain
-            const webhookUrl = 'https://confusedvirus.shop/orders.html';
-            const setWebhookUrl = `https://api.telegram.org/bot${this.BOT_TOKEN}/setWebhook`;
-            
-            console.log('Setting webhook URL:', webhookUrl);
-            
-            const response = await fetch(setWebhookUrl, {
+            console.log('🗑️ Removing existing webhook...');
+            const deleteWebhookUrl = `https://api.telegram.org/bot${this.BOT_TOKEN}/deleteWebhook`;
+            const response = await fetch(deleteWebhookUrl, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: `url=${encodeURIComponent(webhookUrl)}`
+                    'Content-Type': 'application/json'
+                }
             });
             
-            const result = await response.json();
-            console.log('Full webhook response:', JSON.stringify(result, null, 2));
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             
+            const result = await response.json();
             if (result.ok) {
-                console.log('✅ Webhook successfully set');
+                console.log('✅ Webhook successfully removed');
             } else {
-                console.error('❌ Webhook setup failed:', result.description || 'Unknown error');
+                throw new Error(result.description || 'Unknown error');
             }
         } catch (error) {
-            console.error('🚨 Webhook setup error:', error.message);
+            console.error('❌ Failed to delete webhook:', error);
+            throw error; // Re-throw to handle in init
         }
     },
 
@@ -176,6 +179,15 @@ const StatusUpdates = {
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Initializing StatusUpdates...');
+    console.log('🚀 Initializing StatusUpdates...');
     StatusUpdates.init();
+
+    // Load last known statuses from local storage
+    const orders = Object.keys(localStorage).filter(key => key.startsWith('order_'));
+    orders.forEach(orderKey => {
+        const orderId = orderKey.split('_')[1];
+        const status = localStorage.getItem(orderKey);
+        console.log(`Order ${orderId} last known status: ${status}`);
+        // Update the UI accordingly if needed
+    });
 }); 
