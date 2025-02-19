@@ -110,7 +110,7 @@ const StatusUpdates = {
     async setWebhook() {
         try {
             // Use your custom domain
-            const webhookUrl = 'https://confusedvirus.shop';
+            const webhookUrl = 'https://confusedvirus.shop/orders.html';
             const setWebhookUrl = `https://api.telegram.org/bot${this.BOT_TOKEN}/setWebhook`;
             
             console.log('Setting webhook URL:', webhookUrl);
