@@ -106,8 +106,22 @@ const StorageUtil = {
             console.error('Product not found:', productId);
             return;
         }
+
+        // Get the selected size if available
+        const sizeSelect = document.getElementById(`size-${productId}`);
+        const selectedSize = sizeSelect ? sizeSelect.value : null;
         
-        const existingItem = cart.find(item => item.productId === productId);
+        // Get size-specific price if available
+        let price = product.price;
+        if (product.sizes && selectedSize && product.sizes[selectedSize]) {
+            price = product.sizes[selectedSize];
+        }
+        
+        const existingItem = cart.find(item => 
+            item.productId === productId && 
+            (!selectedSize || item.size === selectedSize)
+        );
+        
         console.log('Existing cart item:', existingItem);
         
         if (existingItem) {
@@ -117,14 +131,15 @@ const StorageUtil = {
                 productId: productId,
                 quantity: 1,
                 name: product.name,
-                price: product.price,
-                imageUrl: product.imageUrl
+                price: price,
+                imageUrl: product.imageUrl,
+                size: selectedSize
             });
         }
         
         this.setCart(cart);
-        this.updateCartCount(); // Call to update cart count immediately
-        console.log('Cart after adding:', cart); // Log the cart contents
+        this.updateCartCount();
+        console.log('Cart after adding:', cart);
     },
 
     removeFromCart(productId) {
@@ -183,6 +198,39 @@ const StorageUtil = {
             return true;
         }
         return false;
+    },
+
+    // Save applied coupon
+    setAppliedCoupon(couponData) {
+        try {
+            localStorage.setItem('appliedCoupon', JSON.stringify(couponData));
+            return true;
+        } catch (error) {
+            console.error('Error saving coupon:', error);
+            return false;
+        }
+    },
+
+    // Get applied coupon
+    getAppliedCoupon() {
+        try {
+            const couponData = localStorage.getItem('appliedCoupon');
+            return couponData ? JSON.parse(couponData) : null;
+        } catch (error) {
+            console.error('Error getting coupon:', error);
+            return null;
+        }
+    },
+
+    // Remove applied coupon
+    removeAppliedCoupon() {
+        try {
+            localStorage.removeItem('appliedCoupon');
+            return true;
+        } catch (error) {
+            console.error('Error removing coupon:', error);
+            return false;
+        }
     }
 };
 

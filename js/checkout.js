@@ -42,20 +42,50 @@ const CheckoutManager = {
         const tax = subtotal * 0.08; // 8% tax
         const shipping = 10.00; // ₹10 shipping
         const isUPI = document.querySelector('input[name="payment"][value="upi"]').checked;
-        const codFee = isUPI ? 0 : 50.00; // ₹50 COD fee if COD selected
+        const codFee = isUPI ? 0 : 89.00; // ₹89 COD fee if COD selected
+
+        // Apply discount if coupon exists
+        let discount = 0;
+        const currentCoupon = StorageUtil.getAppliedCoupon();
+        if (currentCoupon) {
+            // Recalculate discount based on current subtotal
+            discount = Math.min(subtotal * currentCoupon.discount, currentCoupon.maxDiscount);
+            document.getElementById('couponMessage').textContent = `Coupon applied: ${currentCoupon.description}`;
+            document.getElementById('couponMessage').className = 'coupon-message success';
+        }
+
+        const total = subtotal + tax + shipping + codFee - discount;
 
         // Update amounts
-        document.querySelector('.subtotal .amount').textContent = `₹${subtotal.toFixed(2)}`;
-        document.querySelector('.tax .amount').textContent = `₹${tax.toFixed(2)}`;
-        document.querySelector('.shipping .amount').textContent = `₹${shipping.toFixed(2)}`;
+        document.querySelector('.subtotal .amount').textContent = `    ₹${subtotal.toFixed(2)}`;
+        document.querySelector('.tax .amount').textContent = `    ₹${tax.toFixed(2)}`;
+        document.querySelector('.shipping .amount').textContent = `    ₹${shipping.toFixed(2)}`;
         
         // Show/hide and update COD fee
         const codFeeElement = document.querySelector('.cod-fee');
-        codFeeElement.style.display = isUPI ? 'none' : 'block';
+        if (codFeeElement) {
+            codFeeElement.style.display = isUPI ? 'none' : 'block';
+            codFeeElement.querySelector('.amount').textContent = `    ₹${codFee.toFixed(2)}`;
+        }
         
+        // Update discount display
+        if (discount > 0 && currentCoupon) {
+            const discountHtml = `
+                <div class="summary-item discount">
+                    <span>Discount (${currentCoupon.code}):</span>
+                    <span class="amount">    -₹${discount.toFixed(2)}</span>
+                </div>`;
+            
+            let discountElement = document.querySelector('.discount');
+            if (!discountElement) {
+                document.querySelector('.order-total').insertAdjacentHTML('beforeend', discountHtml);
+            } else {
+                discountElement.querySelector('.amount').textContent = `    -₹${discount.toFixed(2)}`;
+            }
+        }
+
         // Calculate and update total
-        const total = subtotal + tax + shipping + codFee;
-        document.querySelector('.total .amount').textContent = `₹${total.toFixed(2)}`;
+        document.querySelector('.total .amount').textContent = `    ₹${total.toFixed(2)}`;
 
         // Update QR code for UPI
         if (isUPI) {
@@ -215,16 +245,16 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Global function for placing order
-function placeOrder() {
+async function placeOrder() {
     if (!CheckoutManager.validateOrder()) return;
     
-    const cart = StorageUtil.getCart();
-    if (!cart || cart.length === 0) {
-        alert('Your cart is empty!');
-        return;
-    }
-
     try {
+        const cart = StorageUtil.getCart(); // Get cart here
+        if (!cart || cart.length === 0) {
+            alert('Your cart is empty!');
+            return;
+        }
+
         // Get customer details
         const customerDetails = {
             name: document.getElementById('name').value.trim(),
@@ -242,10 +272,16 @@ function placeOrder() {
         const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         const tax = subtotal * 0.08;
         const shipping = 10.00;
-        const codFee = paymentMethod === 'cod' ? 50.00 : 0;
-        const total = subtotal + tax + shipping + codFee;
+        const codFee = paymentMethod === 'cod' ? 89.00 : 0;
 
-        // Create order object
+        // Get coupon details
+        const appliedCoupon = StorageUtil.getAppliedCoupon();
+        const discount = appliedCoupon ? Math.min(subtotal * appliedCoupon.discount, appliedCoupon.maxDiscount) : 0;
+
+        // Update total calculation including discount
+        const total = subtotal + tax + shipping + codFee - discount;
+
+        // Create order object with coupon details
         const order = {
             orderId: generateOrderId(),
             date: new Date().toISOString(),
@@ -254,7 +290,8 @@ function placeOrder() {
                 name: item.name,
                 quantity: item.quantity,
                 price: item.price,
-                imageUrl: item.imageUrl || item.image // Handle both imageUrl and image properties
+                imageUrl: item.imageUrl || item.image,
+                size: item.size
             })),
             paymentMethod: paymentMethod,
             utr: utr,
@@ -262,46 +299,71 @@ function placeOrder() {
             tax: tax,
             shipping: shipping,
             codFee: codFee,
+            coupon: appliedCoupon ? {
+                code: appliedCoupon.code,
+                discount: appliedCoupon.discount,
+                discountAmount: discount
+            } : null,
+            discount: discount,
             total: total,
             status: 'Pending'
         };
 
-        // Add status to order object
-        order.status = 'Pending';
-        
+        // Save order first
         console.log('Saving order:', order);
         StorageUtil.addOrder(order);
 
-        console.log('Sending notification to Telegram...');
-        TelegramBot.sendOrderNotification(order)
-            .then(() => {
-                console.log('Telegram notification sent successfully');
-                
-                // Clear cart and redirect only after notification is sent
-                StorageUtil.setCart([]);
-                
-                const params = new URLSearchParams({
-                    orderId: order.orderId,
-                    paymentMethod: paymentMethod,
-                    amount: total.toFixed(2)
-                });
-                
-                window.location.href = `thanks.html?${params.toString()}`;
-            })
-            .catch(error => {
-                console.error('Failed to send Telegram notification:', error);
-                // Still redirect even if notification fails
-                StorageUtil.setCart([]);
-                const params = new URLSearchParams({
-                    orderId: order.orderId,
-                    paymentMethod: paymentMethod,
-                    amount: total.toFixed(2)
-                });
-                window.location.href = `thanks.html?${params.toString()}`;
-            });
+        // Prepare telegram message with enhanced coupon details
+        const telegramMessage = `
+🛍️ New Order Alert!
+------------------
+🆔 Order ID: ${order.orderId}
+👤 Customer: ${order.customer.name}
+📞 Phone: ${order.customer.phone}
+📍 Complete Address:
+${order.customer.address}
+${order.customer.city}, ${order.customer.state}
+PIN: ${order.customer.pincode}
+
+🛒 Order Details:
+${order.items.map(item => `• ${item.name} ${item.size ? `(Size: ${item.size})` : ''} x${item.quantity} - ₹${(item.price * item.quantity).toFixed(2)}`).join('\n')}
+
+💰 Order Summary:
+• Subtotal: ₹${order.subtotal.toFixed(2)}
+• Tax (8%): ₹${order.tax.toFixed(2)}
+• Shipping: ₹${order.shipping.toFixed(2)}
+${order.codFee ? `• COD Fee: ₹${order.codFee.toFixed(2)}\n` : ''}${order.coupon ? `
+🎟️ Coupon Applied:
+• Code: ${order.coupon.code}
+• Discount Rate: ${(order.coupon.discount * 100).toFixed(0)}%
+• Discount Amount: -₹${order.discount.toFixed(2)}` : ''}
+
+💵 Total Amount: ₹${order.total.toFixed(2)}
+
+💳 Payment Method: ${order.paymentMethod.toUpperCase()}
+${order.utr ? `📝 UTR Number: ${order.utr}` : ''}
+📊 Status: ${order.status}
+------------------
+Order placed on ${new Date().toLocaleString()}`;
+
+        // Send telegram notification and handle redirect
+        const notificationSent = await TelegramBot.sendMessage(telegramMessage);
+        console.log('Telegram notification status:', notificationSent);
+        
+        // Clear cart and coupon
+        StorageUtil.setCart([]);
+        StorageUtil.removeAppliedCoupon();
+        
+        // Redirect to thanks page
+        const params = new URLSearchParams({
+            orderId: order.orderId,
+            paymentMethod: order.paymentMethod,
+            amount: order.total.toFixed(2)
+        });
+        
+        window.location.href = `thanks.html?${params.toString()}`;
     } catch (error) {
         console.error('Error placing order:', error);
-        alert('There was an error placing your order. Please try again.');
     }
 }
 

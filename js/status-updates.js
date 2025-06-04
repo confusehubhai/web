@@ -65,7 +65,7 @@ const StatusUpdates = {
                     console.log('Action:', action, 'OrderId:', orderId);
                     
                     let newStatus;
-                    switch (action) {
+                    switch (action.toLowerCase()) {
                         case 'confirm':
                             newStatus = 'Confirmed';
                             break;
@@ -86,20 +86,22 @@ const StatusUpdates = {
                         console.log('Order update success:', updated);
                         
                         if (updated) {
-                            console.log('Sending status update to Telegram...');
+                            // Send telegram notification
                             await TelegramBot.sendStatusUpdate(orderId, newStatus);
                             
-                            console.log('Refreshing orders display...');
+                            // Update display if on orders page
                             this.refreshOrdersDisplay();
                             
-                            console.log('Answering callback query...');
+                            // Answer callback query
                             await this.answerCallbackQuery(
                                 update.callback_query.id,
-                                `Order ${orderId} status updated to ${newStatus}`
+                                `✅ Order ${orderId} status updated to ${newStatus}`
                             );
-
-                            // Save the last known status in local storage
-                            localStorage.setItem(`order_${orderId}`, newStatus);
+                        } else {
+                            await this.answerCallbackQuery(
+                                update.callback_query.id,
+                                `❌ Failed to update order ${orderId}`
+                            );
                         }
                     }
                 }
@@ -177,6 +179,24 @@ const StatusUpdates = {
     }
 };
 
+function updateOrderStatus(orderId, newStatus) {
+    let orders = JSON.parse(localStorage.getItem('orders')) || [];
+    const orderIndex = orders.findIndex(order => order.id === orderId);
+    
+    if (orderIndex !== -1) {
+        orders[orderIndex].status = newStatus;
+        orders[orderIndex].lastUpdated = new Date().toISOString();
+        localStorage.setItem('orders', JSON.stringify(orders));
+        return true;
+    }
+    return false;
+}
+
+function getOrderById(orderId) {
+    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+    return orders.find(order => order.id === orderId);
+}
+
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🚀 Initializing StatusUpdates...');
@@ -190,4 +210,4 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(`Order ${orderId} last known status: ${status}`);
         // Update the UI accordingly if needed
     });
-}); 
+});

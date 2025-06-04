@@ -26,6 +26,14 @@
                 <div class="cart-items" id="cart-items">
                     <!-- Cart items will be loaded here -->
                 </div>
+                <div class="coupon-section">
+                    <h3>Have a Coupon?</h3>
+                    <div class="coupon-input-group">
+                        <input type="text" id="couponCode" placeholder="Enter coupon code">
+                        <button id="applyCoupon">Apply Coupon</button>
+                    </div>
+                    <div id="couponMessage"></div>
+                </div>
                 <div class="cart-summary">
                     <h2>Order Summary</h2>
                     <div class="summary-item">
@@ -40,6 +48,7 @@
                         <span>Shipping:</span>
                         <span id="cart-shipping">₹10.00</span>
                     </div>
+                    <div id="couponMessage" class="coupon-message"></div>
                     <div class="summary-item total">
                         <span>Total:</span>
                         <span id="cart-total">₹0.00</span>
@@ -55,6 +64,7 @@
     </footer>
 
     <script src="js/storage.js"></script>
+    <script src="js/coupons.js"></script>
     <script src="js/main.js"></script>
     <script src="js/cart.js"></script>
 </body>

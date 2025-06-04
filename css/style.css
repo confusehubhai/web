@@ -268,9 +268,9 @@ body::before {
 }
 
 .product-description {
-    color: #cccccc;
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
+    margin: 1rem 0;
+    line-height: 1.6;
+    color: #ffffff;
 }
 
 .add-to-cart {
@@ -289,6 +289,33 @@ body::before {
 
 .add-to-cart:hover {
     background-color: #ffd900;
+}
+
+/* Size Selector */
+.size-selector {
+    margin: 1rem 0;
+}
+
+.size-selector label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.size-select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--primary-color);
+    border-radius: 4px;
+    background-color: var(--card-background);
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.size-select:focus {
+    outline: none;
+    border-color: #ffd900;
+    box-shadow: 0 0 5px rgba(255, 217, 0, 0.3);
 }
 
 /* Touch-friendly Interactions */
@@ -455,4 +482,385 @@ footer {
 
 .bounce {
     animation: bounce 0.3s ease;
+}
+
+/* Gallery button styles */
+.product-image-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.view-gallery-btn {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    opacity: 0;
+    z-index: 2;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.product-image-container:hover .view-gallery-btn {
+    opacity: 1;
+    bottom: 15px;
+}
+
+.view-gallery-btn:hover {
+    background-color: #ffd900;
+    transform: translateX(-50%) scale(1.05);
+}
+
+/* Gallery overlay and container */
+.gallery-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-overlay.active {
+    opacity: 1;
+}
+
+.gallery-overlay.fade-out {
+    opacity: 0;
+}
+
+.gallery-container {
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    background-color: var(--card-background);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.gallery-overlay.active .gallery-container {
+    transform: scale(1);
+}
+
+/* Gallery close button */
+.gallery-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.gallery-close:hover {
+    background-color: #ffd900;
+    transform: rotate(90deg);
+}
+
+/* Gallery content */
+.gallery-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.gallery-image-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.gallery-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-image.fade-in {
+    animation: fadeIn 0.3s forwards;
+}
+
+.gallery-image.fade-out {
+    animation: fadeOut 0.3s forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* Gallery controls */
+.gallery-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.gallery-prev, .gallery-next {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.gallery-prev:hover, .gallery-next:hover {
+    background-color: #ffd900;
+    transform: scale(1.1);
+}
+
+/* Pagination dots */
+.gallery-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.gallery-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #555;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.gallery-dot.active {
+    background-color: var(--primary-color);
+    transform: scale(1.2);
+}
+
+.gallery-dot:hover {
+    background-color: var(--primary-color);
+}
+
+/* Responsive styles for gallery */
+@media (max-width: 768px) {
+    .gallery-container {
+        width: 95%;
+        padding: 15px;
+    }
+    
+    .gallery-image-container {
+        height: 300px;
+    }
+    
+    .gallery-controls {
+        padding: 5px 0;
+    }
+    
+    .gallery-prev, .gallery-next {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+@media (max-width: 576px) {
+    .gallery-image-container {
+        height: 250px;
+    }
+    
+    .product-image-container:hover .view-gallery-btn {
+        opacity: 1;
+    }
+    
+    .view-gallery-btn {
+        opacity: 0.9;
+        bottom: 10px;
+    }
+}
+
+/* For touch devices */
+@media (hover: none) {
+    .view-gallery-btn {
+        opacity: 1;
+        bottom: 10px;
+    }
+}
+
+/* Coupon message styles */
+.coupon-message {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.coupon-message.success {
+    color: #4CAF50;
+}
+
+.coupon-message.error {
+    color: #f44336;
+}
+
+/* Collapsible Product Details */
+.details-container {
+    margin: 1rem 0;
+}
+
+.details-toggle {
+    width: 100%;
+    padding: 1rem;
+    background-color: #1f1f1f;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.details-toggle:hover {
+    background-color: #2a2a2a;
+    border-color: rgba(255, 215, 0, 0.4);
+}
+
+.details-toggle i {
+    transition: transform 0.3s ease;
+}
+
+.details-toggle[aria-expanded="true"] i {
+    transform: rotate(180deg);
+}
+
+.details-content {
+    background-color: #1a1a1a;
+    border: 1px solid rgba(255, 215, 0, 0.1);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease;
+}
+
+.details-toggle[aria-expanded="true"] + .details-content {
+    padding: 1.5rem;
+}
+
+.details-section {
+    margin-bottom: 1.5rem;
+}
+
+.details-section:last-child {
+    margin-bottom: 0;
+}
+
+.details-section h4 {
+    color: var(--primary-color);
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+    font-weight: bold;
+}
+
+.details-section br {
+    margin-bottom: 0.5rem;
+    display: block;
+    content: "";
+}
+
+/* Additional detail dropdowns */
+.additional-toggle {
+    background-color: rgba(255, 215, 0, 0.05);
+    margin-top: 0.5rem;
+}
+
+.additional-toggle:hover {
+    background-color: rgba(255, 215, 0, 0.15);
+}
+
+.additional-content {
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* Spacing between multiple dropdowns */
+.product-details-container + .product-details-container {
+    margin-top: 0.5rem;
+}
+
+/* Different colors for different detail sections */
+.additional-toggle[data-section="specifications"] {
+    border-left: 3px solid #4CAF50;
+}
+
+.additional-toggle[data-section="size-fit"] {
+    border-left: 3px solid #2196F3;
+}
+
+.additional-toggle[data-section="material-care"] {
+    border-left: 3px solid #FF9800;
+}
+
+.additional-toggle[data-section="additional-info"] {
+    border-left: 3px solid #9C27B0;
+}
+
+/* Updated Product Details Layout */
+.details-section {
+    margin-bottom: 1.5rem;
+}
+
+.details-section:last-child {
+    margin-bottom: 0;
+}
+
+.details-section h4 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
 }

@@ -25,15 +25,20 @@ const App = {
         // Add mobile menu button
         const mobileMenuBtn = document.createElement('button');
         mobileMenuBtn.className = 'mobile-menu-btn';
-        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        
+        // Create icon element
+        const icon = document.createElement('i');
+        icon.className = 'fas fa-bars';
+        mobileMenuBtn.appendChild(icon);
+        
         navbar.insertBefore(mobileMenuBtn, navItems);
 
         // Toggle menu on button click
         mobileMenuBtn.addEventListener('click', () => {
             navItems.classList.toggle('active');
-            mobileMenuBtn.innerHTML = navItems.classList.contains('active') 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
+            icon.className = navItems.classList.contains('active') 
+                ? 'fas fa-times' 
+                : 'fas fa-bars';
         });
 
         // Close menu when clicking outside

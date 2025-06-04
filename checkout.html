@@ -28,6 +28,7 @@
                 <div class="order-items">
                     <!-- Order items will be dynamically loaded here -->
                 </div>
+                <div id="couponMessage" class="coupon-message"></div>
                 <div class="order-total">
                     <div class="subtotal">
                         <span>Subtotal:</span>
@@ -43,7 +44,7 @@
                     </div>
                     <div class="cod-fee" style="display: none;">
                         <span>COD Handling Fee:</span>
-                        <span class="amount">₹50.00</span>
+                        <span class="amount">    ₹89.00</span>
                     </div>
                     <div class="total">
                         <span>Total:</span>
@@ -104,13 +105,14 @@
                                 UPI Payment
                             </label>
                         </div>
-                        <!--<div class="payment-option">
+                        <!-- inside cod when no need-->
+                         <div class="payment-option">
                             <label>
                                 <input type="radio" name="payment" value="cod" required>
                                 <i class="fas fa-money-bill-wave"></i>
                                 Cash on Delivery
                             </label>
-                        </div>-->
+                        </div>
                     </div>
                     <div id="upiDetails" class="payment-details">
                         <div class="upi-details">
@@ -132,7 +134,7 @@
                     <div id="codDetails" class="payment-details" style="display: none;">
                         <div class="cod-details">
                             <p>Pay in cash when your order is delivered.</p>
-                            <p class="cod-note">Note: Additional ₹50 handling fee applies for Cash on Delivery</p>
+                            <p class="cod-note">Note: Additional ₹89 handling fee applies for Cash on Delivery</p>
                         </div>
                     </div>
                     <div class="form-submit">
@@ -162,6 +164,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="js/storage.js"></script>
+    <script src="js/coupons.js"></script>
     <script src="js/main.js"></script>
     <script src="js/checkout.js"></script>
     <script src="js/telegram-bot.js"></script>
